@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>LUMINA Salon & Spa</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-dim: rgba(201,168,76,0.18);
+    --dark: #0E0E0E;
+    --dark2: #141414;
+    --dark3: #1C1C1C;
+    --dark4: #242424;
+    --white: #F7F4EF;
+    --muted: #8A8078;
+    --serif: 'Cormorant Garamond', serif;
+    --sans: 'Inter', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: var(--white);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px;
+    height: 64px;
+    background: rgba(14,14,14,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+  }
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 300;
+    letter-spacing: 4px;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  .nav-logo span { font-style: italic; color: var(--white); }
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+  .nav-links a {
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+  .nav-book {
+    background: var(--gold); color: var(--dark);
+    border: none; padding: 9px 22px;
+    font-family: var(--sans); font-size: 11px; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase;
+    cursor: pointer; transition: background 0.2s;
+  }
+  .nav-book:hover { background: var(--gold-light); }
+  .cart-btn {
+    background: transparent; border: 1px solid var(--gold-dim);
+    color: var(--gold); padding: 8px 16px; cursor: pointer;
+    font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+    transition: all 0.2s; position: relative;
+  }
+  .cart-btn:hover { border-color: var(--gold); background: var(--gold-dim); }
+  .cart-count {
+    position: absolute; top: -6px; right: -6px;
+    background: var(--gold); color: var(--dark);
+    border-radius: 50%; width: 18px; height: 18px;
+    font-size: 10px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* ── PAGES ── */
+  .page { display: none; padding-top: 64px; min-height: 100vh; }
+  .page.active { display: block; }
+
+  /* ── HOME PAGE ── */
+  .hero {
+    position: relative; height: calc(100vh - 64px);
+    display: flex; align-items: center;
+    overflow: hidden;
+  }
+  .hero-img {
+    position: absolute; inset: 0;
+    background: url('https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1800&q=80') center/cover no-repeat;
+  }
+  .hero-img::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(105deg, rgba(14,14,14,0.88) 40%, rgba(14,14,14,0.3) 100%);
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    padding: 0 80px; max-width: 700px;
+  }
+  .hero-eyebrow {
+    font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 20px;
+  }
+  .hero-title {
+    font-family: var(--serif); font-size: clamp(52px, 7vw, 92px);
+    font-weight: 300; line-height: 1.05; margin-bottom: 24px;
+  }
+  .hero-title em { font-style: italic; color: var(--gold); }
+  .hero-sub {
+    font-size: 14px; color: var(--muted); max-width: 420px;
+    line-height: 1.8; margin-bottom: 40px;
+  }
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--gold); color: var(--dark);
+    border: none; padding: 14px 32px;
+    font-family: var(--sans); font-size: 11px; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase;
+    cursor: pointer; transition: background 0.2s;
+  }
+  .btn-primary:hover { background: var(--gold-light); }
+  .btn-outline {
+    background: transparent; color: var(--white);
+    border: 1px solid rgba(247,244,239,0.3); padding: 14px 32px;
+    font-family: var(--sans); font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase; cursor: pointer; transition: all 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+  .stats-strip {
+    display: flex; background: var(--dark3);
+    border-top: 1px solid rgba(201,168,76,0.1);
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+  }
+  .stat-item {
+    flex: 1; padding: 28px; text-align: center;
+    border-right: 1px solid rgba(201,168,76,0.08);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: var(--serif); font-size: 36px;
+    font-weight: 300; color: var(--gold);
+  }
+  .stat-label { font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-top: 4px; }
+
+  .section { padding: 80px 80px; }
+  .section-eyebrow {
+    font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: var(--serif); font-size: clamp(32px, 4vw, 52px);
+    font-weight: 300; line-height: 1.15; margin-bottom: 16px;
+  }
+  .section-title em { font-style: italic; color: var(--gold); }
+  .section-sub { font-size: 14px; color: var(--muted); max-width: 520px; line-height: 1.8; margin-bottom: 48px; }
+
+  .feature-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; }
+  .feature-card {
+    position: relative; overflow: hidden; cursor: pointer;
+    aspect-ratio: 4/5;
+  }
+  .feature-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; display: block; }
+  .feature-card:hover img { transform: scale(1.04); }
+  .feature-card-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(14,14,14,0.85) 0%, transparent 55%);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 28px;
+  }
+  .feature-card-label {
+    font-size: 10px; letter-spacing: 3px; color: var(--gold);
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  .feature-card-title {
+    font-family: var(--serif); font-size: 28px; font-weight: 300;
+    line-height: 1.2; margin-bottom: 12px;
+  }
+  .feature-card-cta {
+    font-size: 10px; letter-spacing: 2px; color: var(--muted);
+    text-transform: uppercase; transition: color 0.2s;
+    background: none; border: none; color: var(--gold); cursor: pointer;
+    text-align: left; font-family: var(--sans);
+  }
+  .feature-card:hover .feature-card-cta { color: var(--gold-light); }
+
+  .why-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 32px; }
+  .why-item { padding: 32px 24px; border: 1px solid rgba(201,168,76,0.1); background: var(--dark3); }
+  .why-icon { font-size: 28px; margin-bottom: 16px; }
+  .why-title { font-family: var(--serif); font-size: 20px; font-weight: 300; margin-bottom: 8px; }
+  .why-text { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+  /* ── SALON / SPA PAGE ── */
+  .page-hero {
+    position: relative; height: 380px;
+    display: flex; align-items: flex-end;
+    overflow: hidden;
+  }
+  .page-hero-img {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+  }
+  .page-hero-img::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(14,14,14,1) 0%, rgba(14,14,14,0.3) 100%);
+  }
+  .page-hero-content { position: relative; z-index: 2; padding: 0 80px 48px; }
+
+  /* ── TABS ── */
+  .tab-bar {
+    display: flex; gap: 0;
+    background: var(--dark3);
+    border-bottom: 1px solid rgba(201,168,76,0.12);
+    padding: 0 80px;
+    position: sticky; top: 64px; z-index: 50;
+  }
+  .tab-btn {
+    padding: 18px 32px; background: none; border: none;
+    font-family: var(--sans); font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--muted); cursor: pointer;
+    border-bottom: 2px solid transparent; margin-bottom: -1px;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover { color: var(--white); }
+  .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+  .tab-panel { display: none; padding: 60px 80px; }
+  .tab-panel.active { display: block; }
+
+  /* ── SERVICE CATEGORY ── */
+  .cat-header { margin-bottom: 40px; }
+  .cat-title { font-family: var(--serif); font-size: 38px; font-weight: 300; margin-bottom: 8px; }
+  .cat-title em { font-style: italic; color: var(--gold); }
+  .cat-desc { font-size: 13px; color: var(--muted); max-width: 500px; line-height: 1.8; }
+
+  .sub-tabs { display: flex; gap: 8px; margin-bottom: 40px; flex-wrap: wrap; }
+  .sub-tab {
+    padding: 8px 20px; background: var(--dark3);
+    border: 1px solid rgba(201,168,76,0.15);
+    font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--muted); cursor: pointer; transition: all 0.2s;
+    font-family: var(--sans);
+  }
+  .sub-tab:hover { border-color: var(--gold); color: var(--gold); }
+  .sub-tab.active { background: var(--gold); color: var(--dark); border-color: var(--gold); }
+
+  .sub-panel { display: none; }
+  .sub-panel.active { display: block; }
+
+  .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 16px; }
+  .service-card {
+    background: var(--dark3); border: 1px solid rgba(201,168,76,0.08);
+    overflow: hidden; transition: border-color 0.2s;
+    position: relative;
+  }
+  .service-card:hover { border-color: rgba(201,168,76,0.35); }
+  .service-card-img { width: 100%; height: 180px; object-fit: cover; display: block; }
+  .service-card-body { padding: 20px; }
+  .service-tag { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+  .service-name { font-family: var(--serif); font-size: 20px; font-weight: 300; margin-bottom: 6px; }
+  .service-desc { font-size: 12px; color: var(--muted); line-height: 1.7; margin-bottom: 16px; }
+  .service-footer { display: flex; align-items: center; justify-content: space-between; }
+  .service-price { font-family: var(--serif); font-size: 22px; color: var(--gold); }
+  .add-btn {
+    background: none; border: 1px solid var(--gold-dim);
+    color: var(--gold); padding: 7px 16px;
+    font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+    cursor: pointer; transition: all 0.2s; font-family: var(--sans);
+  }
+  .add-btn:hover { background: var(--gold); color: var(--dark); }
+  .add-btn.added { background: var(--gold); color: var(--dark); }
+
+  /* ── SPA TREATMENTS ── */
+  .spa-treatments { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .spa-card {
+    display: grid; grid-template-columns: 220px 1fr;
+    background: var(--dark3); border: 1px solid rgba(201,168,76,0.08);
+    overflow: hidden; transition: border-color 0.2s;
+  }
+  .spa-card:hover { border-color: rgba(201,168,76,0.3); }
+  .spa-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .spa-card-body { padding: 28px; display: flex; flex-direction: column; justify-content: space-between; }
+  .spa-duration { font-size: 10px; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin-bottom: 10px; }
+  .spa-name { font-family: var(--serif); font-size: 24px; font-weight: 300; margin-bottom: 10px; }
+  .spa-desc { font-size: 12px; color: var(--muted); line-height: 1.8; margin-bottom: 16px; }
+  .spa-footer { display: flex; align-items: center; justify-content: space-between; }
+  .spa-price { font-family: var(--serif); font-size: 26px; color: var(--gold); }
+
+  /* cart badge on nav button */
+
+  /* ── KIDS PACKAGES ── */
+  .kids-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+  .kids-card {
+    background: var(--dark3); border: 1px solid rgba(201,168,76,0.08);
+    overflow: hidden; transition: border-color 0.2s;
+  }
+  .kids-card:hover { border-color: rgba(201,168,76,0.3); }
+  .kids-card img { width: 100%; height: 200px; object-fit: cover; display: block; }
+  .kids-card-body { padding: 22px; }
+  .kids-badge {
+    display: inline-block; background: var(--gold-dim);
+    color: var(--gold); font-size: 9px; letter-spacing: 2px;
+    text-transform: uppercase; padding: 4px 10px; margin-bottom: 10px;
+  }
+  .kids-name { font-family: var(--serif); font-size: 20px; font-weight: 300; margin-bottom: 6px; }
+  .kids-desc { font-size: 12px; color: var(--muted); line-height: 1.7; margin-bottom: 16px; }
+  .kids-footer { display: flex; align-items: center; justify-content: space-between; }
+  .kids-price { font-family: var(--serif); font-size: 22px; color: var(--gold); }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--dark); }
+  ::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); }
+
+  @media(max-width:768px){
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .hero-content { padding: 0 24px; }
+    .section { padding: 60px 24px; }
+    .feature-grid { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+    .tab-bar { padding: 0 24px; overflow-x: auto; }
+    .tab-panel { padding: 40px 24px; }
+    .spa-treatments { grid-template-columns: 1fr; }
+    .spa-card { grid-template-columns: 1fr; }
+    .kids-grid { grid-template-columns: 1fr; }
+    .cart-drawer { width: 100%; }
+    .modal { width: 95%; padding: 28px 20px; }
+    .form-row { grid-template-columns: 1fr; }
+    .page-hero-content { padding: 0 24px 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">LU<span>MI</span>NA</div>
+
+<div style="display:flex;gap:12px;align-items:center">
+    <button class="nav-book" onclick="openBookingFlow()" style="position:relative">
+      Reserve Now
+      <span class="cart-count" id="cartCount" style="display:none">0</span>
+    </button>
+  </div>
+  <div class="nav-links">
+    <a href="#" class="active" onclick="showPage('home',this)">Home</a>
+    <a href="#" onclick="showPage('salon',this)">Salon</a>
+    <a href="#" onclick="showPage('spa',this)">Spa</a>
+  </div>
+  
+</nav>
+
+<!-- ═══════════ HOME PAGE ═══════════ -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-img"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Chennai's Premium Destination</div>
+      <h1 class="hero-title">Where Beauty<br/>Becomes <em>Art.</em></h1>
+      <p class="hero-sub">Indulge in curated salon & spa experiences designed to restore, transform, and celebrate you.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="openBookingFlow()">Reserve Now</button>
+        <button class="btn-outline" onclick="showPage('spa',null)">Explore Spa</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-strip">
+    <div class="stat-item"><div class="stat-num">8K<span style="font-size:20px">+</span></div><div class="stat-label">Happy Clients</div></div>
+    <div class="stat-item"><div class="stat-num">120<span style="font-size:20px">+</span></div><div class="stat-label">Services</div></div>
+    <div class="stat-item"><div class="stat-num">4.9<span style="font-size:20px">★</span></div><div class="stat-label">Rating</div></div>
+    <div class="stat-item"><div class="stat-num">12</div><div class="stat-label">Years of Expertise</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-eyebrow">Our Offerings</div>
+    <h2 class="section-title">Crafted for Every<br/><em>Dimension</em> of You</h2>
+    <p class="section-sub">From precision cuts to transformative spa rituals — every service is performed by certified artisans using premium products.</p>
+    <div class="feature-grid">
+      <div class="feature-card" onclick="showPage('salon',null)">
+        <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80" alt="Salon"/>
+        <div class="feature-card-overlay">
+          <div class="feature-card-label">Salon</div>
+          <div class="feature-card-title">Men · Women · Kids</div>
+          <button class="feature-card-cta">Explore Services →</button>
+        </div>
+      </div>
+      <div class="feature-card" onclick="showPage('spa',null)">
+        <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&q=80" alt="Spa"/>
+        <div class="feature-card-overlay">
+          <div class="feature-card-label">Spa</div>
+          <div class="feature-card-title">Therapies & Rituals</div>
+          <button class="feature-card-cta">Discover Spa →</button>
+        </div>
+      </div>
+      <div class="feature-card" onclick="openBookingFlow()">
+        <img src="https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=800&q=80" alt="Book"/>
+        <div class="feature-card-overlay">
+          <div class="feature-card-label">Appointment</div>
+          <div class="feature-card-title">Reserve Your Session</div>
+          <button class="feature-card-cta">Book Now →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" style="background:var(--dark2);padding-top:80px;padding-bottom:80px">
+    <div class="section-eyebrow">Why LumiNA</div>
+    <h2 class="section-title" style="margin-bottom:48px">The <em>Lumina</em> Difference</h2>
+    <div class="why-grid">
+      <div class="why-item">
+        <div class="why-icon">✦</div>
+        <div class="why-title">Certified Artisans</div>
+        <div class="why-text">Every stylist and therapist trained to international standards with 500+ hours of skill mastery.</div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">◈</div>
+        <div class="why-title">Premium Products</div>
+        <div class="why-text">We use only L'Oréal Professionnel, Kérastase, and luxury organic spa formulations.</div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">⬡</div>
+        <div class="why-title">Curated Ambience</div>
+        <div class="why-text">Private treatment rooms, bespoke playlists, and scented environments for total immersion.</div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">◎</div>
+        <div class="why-title">Effortless Booking</div>
+        <div class="why-text">Select multiple services, choose your stylist, and confirm in under two minutes.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SALON PAGE ═══════════ -->
+<div class="page" id="page-salon">
+  <div class="page-hero">
+    <div class="page-hero-img" style="background-image:url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1800&q=80')"></div>
+    <div class="page-hero-content">
+      <div class="section-eyebrow">Lumière Salon</div>
+      <h1 class="hero-title" style="font-size:clamp(36px,5vw,68px)">Styled to <em>Perfection.</em></h1>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="showTab('men',this)">♂ Men</button>
+    <button class="tab-btn" onclick="showTab('women',this)">♀ Women</button>
+    <button class="tab-btn" onclick="showTab('kids',this)">✦ Kids</button>
+  </div>
+
+  <!-- MEN'S TAB -->
+  <div class="tab-panel active" id="tab-men">
+    <div class="cat-header">
+      <h2 class="cat-title">Men's <em>Services</em></h2>
+      <p class="cat-desc">From precision grooming to complete skin transformations — curated exclusively for the modern gentleman.</p>
+    </div>
+    <div class="sub-tabs">
+      <button class="sub-tab active" onclick="showSubTab('men-skin',this,'men')">Skin Care</button>
+      <button class="sub-tab" onclick="showSubTab('men-hair',this,'men')">Hair</button>
+    </div>
+
+    <!-- Men Skin -->
+    <div class="sub-panel active" id="sub-men-skin">
+      <div class="services-grid">
+        <div class="service-card">
+          <img class="service-card-img" src="https://images.unsplash.com/photo-1619451334792-150fd785ee74?w=600&q=80" alt="Facial"/>
+          <div class="service-card-body">
+            <div class="service-tag">Skin · Men</div>
+            <div class="service-name">Classic Facial</div>
+            <div class="service-desc">Deep cleansing, toning, and moisturising treatment tailored to men's skin.</div>
+            <div class="service-footer">
+              <div class="service-price">₹799</div>
+              <button class="add-btn" onclick="addToCart('Classic Facial','Men · Skin','₹799',this,'https://images.unsplash.com/photo-1619451334792-150fd785ee74?w=60')">+ Add</button>
+            </div>
+          </div>
+        </div>
+        <div class="service-card">
+          <img class="service-card-img" src="https://images.pexels.com/photos/12302327/pexels-photo-12302327.jpeg?w=600&q=80" alt="Steam Facial"/>
+          <div class="service-card-body">
+            <div class="service-tag">Skin · Men</div>
+            <div class="service-name">Steam Facial</div>
+            <div class="service-desc">Open pores, purge impurities, and brighten with therapeutic steam therapy.</div>
+            <div class="service-footer">
+              <div class="service-price">₹999</div>
+              <button class="add-btn" onclick="addToCart('Steam Facial','Men · Skin','₹999',this,'https://images.unsplash.com/photo-1591343395082-e120087004b4?w=60')">+ Add</button>
+            </div>
+          </div>
+        </div>
+        <div class="service-card">
+          <img class="service-card-img" src="https://images.pexels.com/photos/6977607/pexels-photo-6977607.jpeg?w=600&q=80" alt="Chemical Peel"/>
+          <div class="service-card-body">
+            <div class="service-tag">Skin · Men</div>
+            <div class="service-name">Chemical Peel</div>
+            <div class="service-desc">Resurface and renew with a professional-grade exfoliating peel for even skin tone.</div>
+            <div class="service-footer">
+              <div class="service-price">₹1,499</div>
+              <button class="add-btn" onclick="addToCart('Chemical Peel','Men · Skin','₹1,499',this,'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=60')">+ Add</button>
+            </div>
+          </div>
+        </div>
+        <div class="service-card">
+          <img class="service-card-img" src="https://images.pexels.com/photos/6991308/pexels-photo-6991308.jpeg?w=600&q=80" alt="Deep Cleaning"/>
+          <div class="service-card-body">
+            <div class="service-tag">Skin · Men</div>
+            <div class="service-name">Deep Cleaning</div>
+            <div class="service-desc">Targeted blackhead extraction and pore-minimising deep cleanse.</div>
+            <div class="service-footer">
+              <div class="service-price">₹1,199</div>
+              <button class="add-btn" onclick="addToCart('Deep Cleaning','Men · Skin','₹1,199',this,'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=60')">+ Add</button>
+            </div>
+          </div>
+        </div>
+        <div class="service-card">
+          <img class="service-card-img" src="https://images.pexels.com/photos/5912287/pexels-photo-5912287.jpeg?w=600&q=80" alt="Hydra Facial"/>
+          <div class="service-card-body">
+            <div class="service-tag">Skin · Men</div>
+            <div class="service-name">Hydra Facial</div>
+            <div class="service-desc">Multi-step hydrating treatment using advanced Vortex-Fusion technology.</div>
+            <div class="service-footer">
+              <div class="service-price">₹2,499</div>
+              <button class="add-btn" onclick="addToCart('Hydra Facial','Men · Skin','₹2,499',this,'https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=60')">+ Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Men Hair -->
+    <div class="sub-panel" id="sub-men-hair">
+      <div class="services-grid">
+        <div class="service-card">
+          <img class="service-card-img" src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=600&q=80" alt="Haircut"/>
+          <div class="service-card-body">
+            <div class="service-tag">Hair · Men</div>
+            <div class="service-name">Precision Haircut</div>
+            <div class="service-desc">Scissor or clipper cut with style consultation, wash, and blow-dry finish.</div>
+            <div class="service-footer">
+              <div class="service-price">₹499</div>
+              <button class="add-btn" onclick="addToCart('Precision Haircut','Men · Hair','₹499',this,'https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=60')">+ Add</button>
+            </div>
+          </div>
+        </div>
+        <div class="service-card">
+          <img class="service-card-img" src="https://images.pexels.com/photos/28868043/pexels-photo-28868043.jpeg?w=600&q=80" alt="Hair Color"/>
+          <div class="service-card-body">
+            <div class="service-tag">Hair · Men</div>
+            <div class="service-name">Hair Colour</div>
+            <div class="service-desc">Full colour, root touch-up, or grey blending with Wella or L'Oréal formulas.</div>
+            <div class="service-footer">
+              <div class="service-price">₹1,299</div>
+              <button class="add-btn" onclick="addToCart('Hair Colour','Men · Hair','₹1,299',this,'https://images.unsplash.com/photo-1587909209111-5097ee578ec3?w=60')">+ Add</button>
+            </div>
+          </div>
+        </div>
+        <div class="service-card">
+          <img class="service-card-img" src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600&q=80" alt="Texture"/>
+          <div class="service-card-body">
+            <div class="service-tag">Hair · Men</div>
+            <div class="service-name">Texture Treatment</div>
+            <div class="service-desc">Keratin smoothing or perming to reshape your natural texture permanently.</div>
+            <div class="service-footer">
+              <div class="service-price">₹2,999</div>
+              <button class="add-btn" onclick="addToCart('Texture Treatment','Men · Hair','₹2,999',this,'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=60')">+ Add</button>
+            </div>
+          </div>
+        </div>
+        <div class="service-card">
+          <img class="service-card-img" src="https://images.pexels.com/photos/33448217/pexels-photo-33448217.jpeg?w=600&q=80" alt="Hair Spa"/>
+          <div class="service-card-body">
+            <div class="service-tag">Hair · Men</div>
+            <div class="service-name">Hair Spa</div>
+            <div class="service-desc">Intensive conditioning ritual with hot oil massage, steam, and protein mask.</div>
+            <div class="service-footer">
+              <div class="service-price">₹1,199</div>
+              <button class="add-btn" onclick="addToCart('Hair Spa','Men · Hair','₹1,199',this,'https://images.unsplash.com/photo-1634449571010-02389ed0f9b0?w=60')">+ Add</button>
+            </div>
+          </div>
+        </div>
+        <div class="service-card">
+          <img class="service-card-img" src="https://images.pexels.com/photos/8867401/pexels-photo-8867401.jpeg?w=600&q=80" alt="Party Makeup"/>
+          <div class="service-card-body">
+            <div class="service-tag">Hair · Men</div>
+            <div class="service-name">Party Makeup & Grooming</div>
+            <div class="service-desc">Event-ready grooming including skin prep, beard styling, and subtle finish.</div>
+            <div class="service-footer">
+              <div class="service-price">₹1,799</div>
+              <button class="add-btn" onclick="addToCart('Party Makeup & Grooming','Men · Hair','₹1,799',this,'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=60')">+ Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WOMEN'S TAB -->
+  <div class="tab-panel" id="tab-women">
+    <div class="cat-header">
+      <h2 class="cat-title">Women's <em>Services</em></h2>
+      <p class="cat-desc">Skin rituals, colour transformations, bridal artistry, and everything in between — beautifully crafted for her.</p>
+    </div>
+    <div class="sub-tabs">
+      <button class="sub-tab active" onclick="showSubTab('w-skin',this,'women')">Skin</button>
+      <button class="sub-tab" onclick="showSubTab('w-hair',this,'women')">Hair</button>
+      <button class="sub-tab" onclick="showSubTab('w-makeup',this,'women')">Makeup</button>
+      <button class="sub-tab" onclick="showSubTab('w-nails',this,'women')">Nails</button>
+      <button class="sub-tab" onclick="showSubTab('w-saree',this,'women')">Saree Draping</button>
+      <button class="sub-tab" onclick="showSubTab('w-bridal',this,'women')">Bridal</button>
+    </div>
+
+    <div class="sub-panel active" id="sub-w-skin">
+      <div class="services-grid">
+        <div class="service-card">
+          <img class="service-card-img" src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=600&q=80" alt="Hydra Facial"/>
+          <div class="service-card-body">
+            <div class="service-tag">Skin · Women</div>
+            <div class="service-name">Hydra Facial</div>
+            <div class="service-desc">Cleanse, extract, and hydrate with a 6-step radiance-boosting protocol.</div>
+            <div class="service-footer"><div class="service-price">₹2,799</div><button class="add-btn" onclick="addToCart('Hydra Facial (Women)','Women · Skin','₹2,799',this,'https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=60')">+ Add</button></div>
+          </div>
+        </div>
+        <div class="service-card">
+          <img class="service-card-img" src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&q=80" alt="Brightening Facial"/>
+          <div class="service-card-body">
+            <div class="service-tag">Skin · Women</div>
+            <div class="service-name">Brightening Facial</div>
+            <div class="service-desc">Vitamin C infusion and gentle enzyme peel for a luminous, even complexion.</div>
+            <div class="service-footer"><div class="service-price">₹1,599</div><button class="add-btn" onclick="addToCart('Brightening Facial','Women · Skin','₹1,599',this,'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=60')">+ Add</button></div>
+          </div>
+        </div>
+        <div class="service-card">
+          <img class="service-card-img" src="https://images.pexels.com/photos/5069431/pexels-photo-5069431.jpeg?w=600&q=80" alt="Chemical Peel"/>
+          <div class="service-card-body">
+            <div class="service-tag">Skin · Women</div>
+            <div class="service-name">Chemical Peel</div>
+            <div class="service-desc">Exfoliate and reveal fresh skin; options from mild lactic to advanced glycolic.</div>
+            <div class="service-footer"><div class="service-price">₹1,799</div><button class="add-btn" onclick="addToCart('Chemical Peel (Women)','Women · Skin','₹1,799',this,'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=60')">+ Add</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-panel" id="sub-w-hair">
+      <div class="services-grid">
+        <div class="service-card">
+          <img class="service-card-img" src="https://images.unsplash.com/photo-1562322140-8baeececf3df?w=600&q=80" alt="Blow Dry"/>
+          <div class="service-card-body">
+            <div class="service-tag">Hair · Women</div>
+            <div class="service-name">Blow Dry & Style</div>
+            <div class="service-desc">Professional wash, condition, blow-dry, and finish to your choice of style.</div>
+            <div class="service-footer"><div class="service-price">₹699</div><button class="add-btn" onclick="addToCart('Blow Dry & Style','Women · Hair','₹699',this,'https://images.unsplash.com/photo-1562322140-8baeececf3df?w=60')">+ Add</button></div>
+          </div>
+        </div>
+        <div class="service-card">
+          <img class="service-card-img" src="https://images.pexels.com/photos/7755511/pexels-photo-7755511.jpeg?w=600&q=80" alt="Global Colour"/>
+          <div class="service-card-body">
+            <div class="service-tag">Hair · Women</div>
+            <div class="service-name">Global Colour</div>
+            <div class="service-desc">Full head colour with premium L'Oréal Inoa (ammonia-free) shades.</div>
+            <div class="service-footer"><div class="service-price">₹2,499</div><button class="add-btn" onclick="addToCart('Global Colour','Women · Hair','₹2,499',this,'https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=60')">+ Add</button></div>
+          </div>
+        </div>
+        <div class="service-card">
+          <img class="service-card-img" src="https://images.unsplash.com/photo-1634449571010-02389ed0f9b0?w=600&q=80" alt="Keratin"/>
+          <div class="service-card-body">
+            <div class="service-tag">Hair · Women</div>
+            <div class="service-name">Keratin Smoothing</div>
+            <div class="service-desc">Frizz-free, silk-smooth results lasting up to 4 months with zero damage.</div>
+            <div class="service-footer"><div class="service-price">₹3,999</div><button class="add-btn" onclick="addToCart('Keratin Smoothing','Women · Hair','₹3,999',this,'https://images.unsplash.com/photo-1634449571010-02389ed0f9b0?w=60')">+ Add</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-panel" id="sub-w-makeup">
+      <div class="services-grid">
+        <div class="service-card">
+          <img class="service-card-img" src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=600&q=80" alt="Party Makeup"/>
+          <div class="service-card-body">
+            <div class="service-tag">Makeup · Women</div>
+            <div class="service-name">Party Makeup</div>
+            <div class="service-desc">Glamorous, event-ready looks using MAC and Charlotte Tilbury products.</div>
+            <div class="service-footer"><div class="service-price">₹2,499</div><button class="add-btn" onclick="addToCart('Party Makeup','Women · Makeup','₹2,499',this,'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=60')">+ Add</button></div>
+          </div>
+        </div>
+        <div class="service-card">
+          <img class="service-card-img" src="https://images.pexels.com/photos/29370684/pexels-photo-29370684.jpeg?w=600&q=80" alt="Airbrush"/>
+          <div class="service-card-body">
+            <div class="service-tag">Makeup · Women</div>
+            <div class="service-name">Airbrush Makeup</div>
+            <div class="service-desc">Flawless, camera-ready coverage that lasts 16+ hours — ideal for events.</div>
+            <div class="service-footer"><div class="service-price">₹3,499</div><button class="add-btn" onclick="addToCart('Airbrush Makeup','Women · Makeup','₹3,499',this,'https://images.unsplash.com/photo-1487412947147-5cebf100d293?w=60')">+ Add</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-panel" id="sub-w-nails">
+      <div class="services-grid">
+        <div class="service-card">
+          <img class="service-card-img" src="https://images.unsplash.com/photo-1604654894610-df63bc536371?w=600&q=80" alt="Gel Nails"/>
+          <div class="service-card-body">
+            <div class="service-tag">Nails · Women</div>
+            <div class="service-name">Gel Manicure</div>
+            <div class="service-desc">Long-lasting gel polish with nail shaping, cuticle care, and hand massage.</div>
+            <div class="service-footer"><div class="service-price">₹899</div><button class="add-btn" onclick="addToCart('Gel Manicure','Women · Nails','₹899',this,'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=60')">+ Add</button></div>
+          </div>
+        </div>
+        <div class="service-card">
+          <img class="service-card-img" src="https://images.unsplash.com/photo-1610992015732-2449b76344bc?w=600&q=80" alt="Nail Art"/>
+          <div class="service-card-body">
+            <div class="service-tag">Nails · Women</div>
+            <div class="service-name">Nail Art</div>
+            <div class="service-desc">Bespoke nail art from minimalist designs to elaborate 3D floral work.</div>
+            <div class="service-footer"><div class="service-price">₹399 <span style="font-size:12px;color:var(--muted)">/ nail</span></div><button class="add-btn" onclick="addToCart('Nail Art','Women · Nails','₹399/nail',this,'https://images.unsplash.com/photo-1610992015732-2449b76344bc?w=60')">+ Add</button></div>
+          </div>
+        </div>
+        <div class="service-card">
+          <img class="service-card-img" src="https://images.unsplash.com/photo-1519014816548-bf5fe059798b?w=600&q=80" alt="Pedicure"/>
+          <div class="service-card-body">
+            <div class="service-tag">Nails · Women</div>
+            <div class="service-name">Luxury Pedicure</div>
+            <div class="service-desc">Foot soak, scrub, callus removal, massage, and gel polish for pampered feet.</div>
+            <div class="service-footer"><div class="service-price">₹1,099</div><button class="add-btn" onclick="addToCart('Luxury Pedicure','Women · Nails','₹1,099',this,'https://images.unsplash.com/photo-1519014816548-bf5fe059798b?w=60')">+ Add</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-panel" id="sub-w-saree">
+      <div class="services-grid">
+        <div class="service-card">
+          <img class="service-card-img" src="https://images.pexels.com/photos/9419002/pexels-photo-9419002.jpeg?w=600&q=80" alt="Saree Draping"/>
+          <div class="service-card-body">
+            <div class="service-tag">Saree Draping · Women</div>
+            <div class="service-name">Classic Saree Draping</div>
+            <div class="service-desc">Nivi, Bengali, and Gujarati styles — expertly draped in 30 minutes or less.</div>
+            <div class="service-footer"><div class="service-price">₹599</div><button class="add-btn" onclick="addToCart('Classic Saree Draping','Women · Saree','₹599',this,'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=60')">+ Add</button></div>
+          </div>
+        </div>
+        <div class="service-card">
+          <img class="service-card-img" src="https://images.pexels.com/photos/37597723/pexels-photo-37597723.jpeg?w=600&q=80" alt="Bridal Draping"/>
+          <div class="service-card-body">
+            <div class="service-tag">Saree Draping · Women</div>
+            <div class="service-name">Bridal Saree Draping</div>
+            <div class="service-desc">Elaborate bridal draping with pin-setting, veil placement, and final styling check.</div>
+            <div class="service-footer"><div class="service-price">₹1,299</div><button class="add-btn" onclick="addToCart('Bridal Saree Draping','Women · Saree','₹1,299',this,'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=60')">+ Add</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-panel" id="sub-w-bridal">
+      <div class="services-grid">
+        <div class="service-card">
+          <img class="service-card-img" src="https://images.pexels.com/photos/33078532/pexels-photo-33078532.jpeg?w=600&q=80" alt="Bridal Makeup"/>
+          <div class="service-card-body">
+            <div class="service-tag">Bridal · Women</div>
+            <div class="service-name">Bridal Makeup</div>
+            <div class="service-desc">Full bridal look with skin prep, airbrush base, eye artistry, and long-wear setting.</div>
+            <div class="service-footer"><div class="service-price">₹8,999</div><button class="add-btn" onclick="addToCart('Bridal Makeup','Women · Bridal','₹8,999',this,'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=60')">+ Add</button></div>
+          </div>
+        </div>
+        <div class="service-card">
+          <img class="service-card-img" src="https://images.pexels.com/photos/28074741/pexels-photo-28074741.jpeg?w=600&q=80" alt="Bridal Package"/>
+          <div class="service-card-body">
+            <div class="service-tag">Bridal · Women</div>
+            <div class="service-name">Complete Bridal Package</div>
+            <div class="service-desc">Makeup + hairstyle + saree draping + manicure-pedicure + pre-bridal skin ritual.</div>
+            <div class="service-footer"><div class="service-price">₹18,999</div><button class="add-btn" onclick="addToCart('Complete Bridal Package','Women · Bridal','₹18,999',this,'https://images.unsplash.com/photo-1529636798458-92182e662485?w=60')">+ Add</button></div>
+          </div>
+        </div>
+        <div class="service-card">
+          <img class="service-card-img" src="https://images.pexels.com/photos/33826344/pexels-photo-33826344.jpeg?w=600&q=80" alt="Pre-Bridal"/>
+          <div class="service-card-body">
+            <div class="service-tag">Bridal · Women</div>
+            <div class="service-name">Pre-Bridal Ritual</div>
+            <div class="service-desc">3-session skin prep programme covering brightening, deep cleansing, and hydration.</div>
+            <div class="service-footer"><div class="service-price">₹6,499</div><button class="add-btn" onclick="addToCart('Pre-Bridal Ritual','Women · Bridal','₹6,499',this,'https://images.unsplash.com/photo-1487412947147-5cebf100d293?w=60')">+ Add</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KIDS TAB -->
+  <div class="tab-panel" id="tab-kids">
+    <div class="cat-header">
+      <h2 class="cat-title">Kids' <em>Corner</em></h2>
+      <p class="cat-desc">Gentle, fun, and fuss-free — a safe space where every little one feels special and leaves with a smile.</p>
+    </div>
+    <div class="kids-grid">
+      <div class="kids-card">
+        <img src="https://images.pexels.com/photos/7697366/pexels-photo-7697366.jpeg?w=600&q=80" alt="Kids Haircut"/>
+        <div class="kids-card-body">
+          <div class="kids-badge">Ages 2–10</div>
+          <div class="kids-name">Fun Snip Haircut</div>
+          <div class="kids-desc">A gentle, playful trim styled to suit your child's personality — no tears guaranteed!</div>
+          <div class="kids-footer">
+            <div class="kids-price">₹299</div>
+            <button class="add-btn" onclick="addToCart('Fun Snip Haircut','Kids','₹299',this,'https://images.pexels.com/photos/7697366/pexels-photo-7697366.jpeg')">+ Add</button>
+          </div>
+        </div>
+      </div>
+      <div class="kids-card">
+        <img src="https://images.pexels.com/photos/17163941/pexels-photo-17163941.jpeg?w=600&q=80" alt="Fancy Braids"/>
+        <div class="kids-card-body">
+          <div class="kids-badge">Girls · Ages 4–14</div>
+          <div class="kids-name">Princess Braids & Twists</div>
+          <div class="kids-desc">Elaborate braid styles, bubble ponytails, and soft curls for that magical look.</div>
+          <div class="kids-footer">
+            <div class="kids-price">₹499</div>
+            <button class="add-btn" onclick="addToCart('Princess Braids & Twists','Kids','₹499',this,'https://images.unsplash.com/photo-1588776814546-daab30f310ce?w=60')">+ Add</button>
+          </div>
+        </div>
+      </div>
+      <div class="kids-card">
+        <img src="https://images.pexels.com/photos/30005378/pexels-photo-30005378.jpeg?w=600&q=80" alt="Birthday Package"/>
+        <div class="kids-card-body">
+          <div class="kids-badge">⭐ Signature Package</div>
+          <div class="kids-name">Birthday Star Package</div>
+          <div class="kids-desc">Haircut + hair accessories + kid-friendly nail art + sparkle face paint + welcome treat.</div>
+          <div class="kids-footer">
+            <div class="kids-price">₹1,299</div>
+            <button class="add-btn" onclick="addToCart('Birthday Star Package','Kids','₹1,299',this,'https://images.unsplash.com/photo-1535572290543-960a8046f5af?w=60')">+ Add</button>
+          </div>
+        </div>
+      </div>
+      <div class="kids-card">
+        <img src="https://images.pexels.com/photos/7697678/pexels-photo-7697678.jpeg?w=600&q=80" alt="School Look"/>
+        <div class="kids-card-body">
+          <div class="kids-badge">Back to School</div>
+          <div class="kids-name">School Ready Style</div>
+          <div class="kids-desc">Quick trim, neat plaits or half-up style, and a light hair serum for a polished look.</div>
+          <div class="kids-footer">
+            <div class="kids-price">₹399</div>
+            <button class="add-btn" onclick="addToCart('School Ready Style','Kids','₹399',this,'https://images.unsplash.com/photo-1519340241574-2cec6aef0c01?w=60')">+ Add</button>
+          </div>
+        </div>
+      </div>
+      <div class="kids-card">
+        <img src="https://images.pexels.com/photos/15659486/pexels-photo-15659486.jpeg?w=600&q=80" alt="Spa Junior"/>
+        <div class="kids-card-body">
+          <div class="kids-badge">Mini Spa · Ages 8+</div>
+          <div class="kids-name">Mini Spa Day</div>
+          <div class="kids-desc">Gentle hand soak, kid-safe nail colour, mini scalp massage, and a fruit infused drink.</div>
+          <div class="kids-footer">
+            <div class="kids-price">₹799</div>
+            <button class="add-btn" onclick="addToCart('Mini Spa Day','Kids','₹799',this,'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=60')">+ Add</button>
+          </div>
+        </div>
+      </div>
+      <div class="kids-card">
+        <img src="https://images.pexels.com/photos/18189272/pexels-photo-18189272.jpeg?w=600&q=80" alt="Junior Groom"/>
+        <div class="kids-card-body">
+          <div class="kids-badge">Boys · Ages 3–12</div>
+          <div class="kids-name">Junior Groom Package</div>
+          <div class="kids-desc">Haircut + eyebrow tidy + gentle face wash + hair gel styling for the little gentleman.</div>
+          <div class="kids-footer">
+            <div class="kids-price">₹599</div>
+            <button class="add-btn" onclick="addToCart('Junior Groom Package','Kids','₹599',this,'https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=60')">+ Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SPA PAGE ═══════════ -->
+<div class="page" id="page-spa">
+  <div class="page-hero">
+    <div class="page-hero-img" style="background-image:url('https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=1800&q=80')"></div>
+    <div class="page-hero-content">
+      <div class="section-eyebrow">Lumière Spa</div>
+      <h1 class="hero-title" style="font-size:clamp(36px,5vw,68px)">Still the <em>Mind.</em><br/>Restore the Body.</h1>
+    </div>
+  </div>
+
+  <div style="padding:60px 80px">
+    <div class="section-eyebrow">Signature Treatments</div>
+    <h2 class="section-title" style="margin-bottom:12px">Crafted <em>Rituals</em></h2>
+    <p class="section-sub">Every treatment is a sensory journey — drawing on ancient Ayurvedic tradition, modern hydrotherapy, and bespoke aromatherapy blends.</p>
+
+    <div class="spa-treatments">
+
+      <div class="spa-card">
+        <img src="https://images.pexels.com/photos/5240677/pexels-photo-5240677.jpeg?w=400&q=80" alt="Foot Relaxation"/>
+        <div class="spa-card-body">
+          <div class="spa-duration">45 min · Foot Therapy</div>
+          <div class="spa-name">Foot Relaxation Ritual</div>
+          <div class="spa-desc">Warm herbal soak, reflexology pressure-point work, exfoliating scrub, and cooling mint balm massage from ankle to calf.</div>
+          <div class="spa-footer">
+            <div class="spa-price">₹1,299</div>
+            <button class="add-btn" onclick="addToCart('Foot Relaxation Ritual','Spa','₹1,299',this,'https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=60')">+ Add</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="spa-card">
+        <img src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=400&q=80" alt="Balance Massage"/>
+        <div class="spa-card-body">
+          <div class="spa-duration">60 min · Full Body</div>
+          <div class="spa-name">Balance Massage</div>
+          <div class="spa-desc">Swedish-inspired full-body technique using light to medium pressure to dissolve stress and restore inner equilibrium.</div>
+          <div class="spa-footer">
+            <div class="spa-price">₹1,999</div>
+            <button class="add-btn" onclick="addToCart('Balance Massage','Spa','₹1,999',this,'https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=60')">+ Add</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="spa-card">
+        <img src="https://images.pexels.com/photos/35714411/pexels-photo-35714411.jpeg?w=400&q=80" alt="Deep Tension"/>
+        <div class="spa-card-body">
+          <div class="spa-duration">75 min · Therapeutic</div>
+          <div class="spa-name">Deep Tension Massage</div>
+          <div class="spa-desc">Targeted deep-tissue work on chronic knots and trigger points — firmer pressure, profound release for neck, shoulders, and back.</div>
+          <div class="spa-footer">
+            <div class="spa-price">₹2,499</div>
+            <button class="add-btn" onclick="addToCart('Deep Tension Massage','Spa','₹2,499',this,'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=60')">+ Add</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="spa-card">
+        <img src="https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=400&q=80" alt="Hot Stone"/>
+        <div class="spa-card-body">
+          <div class="spa-duration">90 min · Signature</div>
+          <div class="spa-name">Hot Stone Therapy</div>
+          <div class="spa-desc">Smooth, heated basalt stones glide along energy meridians, melting deep muscle tension while a warm oil blend is absorbed into the skin.</div>
+          <div class="spa-footer">
+            <div class="spa-price">₹3,499</div>
+            <button class="add-btn" onclick="addToCart('Hot Stone Therapy','Spa','₹3,499',this,'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=60')">+ Add</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="spa-card">
+        <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400&q=80" alt="Aroma Wrap"/>
+        <div class="spa-card-body">
+          <div class="spa-duration">60 min · Body Ritual</div>
+          <div class="spa-name">Aromatherapy Body Wrap</div>
+          <div class="spa-desc">A cocoon of warm botanical mud, infused with lavender, rose, and sandalwood — detoxifying, firming, and utterly indulgent.</div>
+          <div class="spa-footer">
+            <div class="spa-price">₹2,799</div>
+            <button class="add-btn" onclick="addToCart('Aromatherapy Body Wrap','Spa','₹2,799',this,'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=60')">+ Add</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="spa-card">
+        <img src="https://images.unsplash.com/photo-1591343395082-e120087004b4?w=400&q=80" alt="Ayurvedic Shirodhara"/>
+        <div class="spa-card-body">
+          <div class="spa-duration">60 min · Ayurvedic</div>
+          <div class="spa-name">Shirodhara</div>
+          <div class="spa-desc">A continuous stream of warm medicated oil flows over the forehead — the ultimate Ayurvedic remedy for anxiety, insomnia, and mental fatigue.</div>
+          <div class="spa-footer">
+            <div class="spa-price">₹2,999</div>
+            <button class="add-btn" onclick="addToCart('Shirodhara','Spa','₹2,999',this,'https://images.unsplash.com/photo-1591343395082-e120087004b4?w=60')">+ Add</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="spa-card">
+        <img src="https://images.pexels.com/photos/19695976/pexels-photo-19695976.jpeg?w=400&q=80" alt="Couple Spa"/>
+        <div class="spa-card-body">
+          <div class="spa-duration">90 min · For Two</div>
+          <div class="spa-name">Couple's Escape</div>
+          <div class="spa-desc">Side-by-side relaxation massage in our private couple's suite, followed by herbal tea and a shared foot ritual.</div>
+          <div class="spa-footer">
+            <div class="spa-price">₹4,999</div>
+            <button class="add-btn" onclick="addToCart('Couple\'s Escape','Spa','₹4,999',this,'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=60')">+ Add</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="spa-card">
+        <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=400&q=80" alt="Lumiere Signature"/>
+        <div class="spa-card-body">
+          <div class="spa-duration">120 min · ✦ Premium</div>
+          <div class="spa-name">Lumina Signature Journey</div>
+          <div class="spa-desc">Our ultimate ritual: foot soak + hot stone massage + facial + scalp treatment + aromatherapy shower — complete mind-body renewal.</div>
+          <div class="spa-footer">
+            <div class="spa-price">₹6,499</div>
+            <button class="add-btn" onclick="addToCart('Lumière Signature Journey','Spa','₹6,499',this,'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=60')">+ Add</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ 3-STEP BOOKING MODAL ═══════════ -->
+<style>
+/* ── Booking Modal Overlay ── */
+.bk-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.75);
+  z-index: 300; opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.bk-overlay.open { opacity: 1; pointer-events: all; }
+
+.bk-modal {
+  background: var(--dark2);
+  border: 1px solid rgba(201,168,76,0.2);
+  width: 100%; max-width: 620px;
+  max-height: 92vh; overflow-y: auto;
+  position: relative;
+  display: flex; flex-direction: column;
+}
+
+/* ── Step progress bar ── */
+.bk-progress {
+  display: flex; align-items: stretch;
+  border-bottom: 1px solid rgba(201,168,76,0.12);
+  flex-shrink: 0;
+}
+.bk-step-tab {
+  flex: 1; padding: 18px 12px; text-align: center;
+  position: relative; cursor: default;
+  border-right: 1px solid rgba(201,168,76,0.08);
+}
+.bk-step-tab:last-child { border-right: none; }
+.bk-step-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 1px solid rgba(201,168,76,0.25);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 600; color: var(--muted);
+  margin: 0 auto 6px; transition: all 0.3s;
+}
+.bk-step-label {
+  font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--muted); transition: color 0.3s;
+}
+.bk-step-tab.active .bk-step-num {
+  background: var(--gold); border-color: var(--gold);
+  color: var(--dark);
+}
+.bk-step-tab.active .bk-step-label { color: var(--gold); }
+.bk-step-tab.done .bk-step-num {
+  background: rgba(201,168,76,0.15); border-color: var(--gold);
+  color: var(--gold);
+}
+.bk-step-tab.done .bk-step-label { color: var(--gold); }
+.bk-progress-bar {
+  position: absolute; bottom: 0; left: 0; height: 2px;
+  background: var(--gold); transition: width 0.4s ease;
+}
+
+/* ── Step panels ── */
+.bk-body { flex: 1; overflow-y: auto; }
+.bk-panel { display: none; padding: 36px 40px 28px; }
+.bk-panel.active { display: block; }
+
+.bk-title {
+  font-family: var(--serif); font-size: 28px; font-weight: 300;
+  margin-bottom: 4px;
+}
+.bk-title em { font-style: italic; color: var(--gold); }
+.bk-sub { font-size: 12px; color: var(--muted); margin-bottom: 28px; }
+
+/* ── Step 1: Services ── */
+.bk-cat-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
+.bk-cat-btn {
+  padding: 7px 18px; background: var(--dark4);
+  border: 1px solid rgba(201,168,76,0.12);
+  font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--muted); cursor: pointer; transition: all 0.2s;
+  font-family: var(--sans);
+}
+.bk-cat-btn:hover { border-color: var(--gold); color: var(--gold); }
+.bk-cat-btn.active { background: var(--gold-dim); color: var(--gold); border-color: var(--gold); }
+
+.bk-service-list { display: flex; flex-direction: column; gap: 8px; max-height: 340px; overflow-y: auto; padding-right: 4px; }
+.bk-service-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 14px;
+  background: var(--dark3); border: 1px solid rgba(201,168,76,0.06);
+  cursor: pointer; transition: border-color 0.2s;
+}
+.bk-service-row:hover { border-color: rgba(201,168,76,0.25); }
+.bk-service-row.selected { border-color: var(--gold); background: rgba(201,168,76,0.06); }
+.bk-service-check {
+  width: 20px; height: 20px; border-radius: 50%;
+  border: 1px solid rgba(201,168,76,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; flex-shrink: 0; transition: all 0.2s;
+}
+.bk-service-row.selected .bk-service-check {
+  background: var(--gold); border-color: var(--gold); color: var(--dark);
+}
+.bk-service-row-img { width: 48px; height: 48px; object-fit: cover; flex-shrink: 0; }
+.bk-service-row-info { flex: 1; }
+.bk-service-row-name { font-family: var(--serif); font-size: 16px; font-weight: 300; }
+.bk-service-row-cat { font-size: 10px; color: var(--muted); letter-spacing: 1px; }
+.bk-service-row-price { font-family: var(--serif); font-size: 16px; color: var(--gold); flex-shrink: 0; }
+
+.bk-selected-summary {
+  margin-top: 16px; padding: 14px;
+  background: var(--dark4); border: 1px solid rgba(201,168,76,0.1);
+  font-size: 12px; color: var(--muted);
+}
+.bk-selected-summary strong { color: var(--gold); }
+
+/* ── Step 2: Details form ── */
+.form-group { margin-bottom: 18px; }
+.form-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 7px; display: block; }
+.form-input, .form-select, .form-textarea {
+  width: 100%; background: var(--dark4);
+  border: 1px solid rgba(201,168,76,0.12);
+  color: var(--white); padding: 12px 14px;
+  font-family: var(--sans); font-size: 13px;
+  outline: none; transition: border-color 0.2s;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--gold); }
+.form-select option { background: var(--dark4); }
+.form-textarea { resize: vertical; min-height: 72px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+.stylist-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-top: 6px; }
+.stylist-card {
+  padding: 14px 10px; text-align: center;
+  background: var(--dark4); border: 1px solid rgba(201,168,76,0.1);
+  cursor: pointer; transition: all 0.2s;
+}
+.stylist-card:hover { border-color: rgba(201,168,76,0.3); }
+.stylist-card.selected { border-color: var(--gold); background: var(--gold-dim); }
+.stylist-avatar { font-size: 22px; margin-bottom: 6px; }
+.stylist-name { font-size: 12px; color: var(--white); font-weight: 500; }
+.stylist-role { font-size: 10px; color: var(--muted); }
+
+/* ── Step 3: Confirm ── */
+.confirm-section { margin-bottom: 22px; }
+.confirm-section-title {
+  font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 10px;
+  padding-bottom: 6px; border-bottom: 1px solid rgba(201,168,76,0.1);
+}
+.confirm-row {
+  display: flex; justify-content: space-between;
+  padding: 7px 0; font-size: 13px;
+  border-bottom: 1px solid rgba(201,168,76,0.04);
+}
+.confirm-row-label { color: var(--muted); }
+.confirm-row-val { color: var(--white); text-align: right; max-width: 60%; }
+.confirm-total {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 16px 0 0; margin-top: 8px;
+  border-top: 1px solid rgba(201,168,76,0.15);
+}
+.confirm-total-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+.confirm-total-val { font-family: var(--serif); font-size: 30px; color: var(--gold); }
+
+/* ── Success ── */
+.bk-success { text-align: center; padding: 48px 32px; }
+.bk-success-icon { font-size: 48px; margin-bottom: 16px; }
+.bk-success-title { font-family: var(--serif); font-size: 32px; font-weight: 300; margin-bottom: 8px; }
+.bk-success-title em { font-style: italic; color: var(--gold); }
+.bk-success-sub { font-size: 13px; color: var(--muted); line-height: 1.8; margin-bottom: 8px; }
+.bk-ref { display: inline-block; margin-top: 16px; padding: 8px 20px;
+  border: 1px solid rgba(201,168,76,0.3); color: var(--gold);
+  font-size: 12px; letter-spacing: 2px; }
+
+/* ── Footer nav ── */
+.bk-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px 40px; border-top: 1px solid rgba(201,168,76,0.1);
+  flex-shrink: 0;
+}
+.bk-close-btn {
+  position: absolute; top: 16px; right: 20px;
+  background: none; border: none; color: var(--muted);
+  font-size: 20px; cursor: pointer; z-index: 2; transition: color 0.2s;
+}
+.bk-close-btn:hover { color: var(--white); }
+.btn-ghost {
+  background: none; border: 1px solid rgba(201,168,76,0.2);
+  color: var(--muted); padding: 11px 24px;
+  font-family: var(--sans); font-size: 11px; letter-spacing: 2px;
+  text-transform: uppercase; cursor: pointer; transition: all 0.2s;
+}
+.btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+/* scrollbar inside service list */
+.bk-service-list::-webkit-scrollbar { width: 3px; }
+.bk-service-list::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.2); }
+
+@media(max-width:600px){
+  .bk-panel { padding: 24px 20px 18px; }
+  .bk-footer { padding: 16px 20px; }
+  .form-row { grid-template-columns: 1fr; }
+  .stylist-grid { grid-template-columns: repeat(2,1fr); }
+}
+</style>
+
+<div class="bk-overlay" id="bkOverlay">
+  <div class="bk-modal" id="bkModal">
+    <button class="bk-close-btn" onclick="closeBkModal()">✕</button>
+
+    <!-- Progress -->
+    <div class="bk-progress" id="bkProgress">
+      <div class="bk-step-tab active" id="ptab1">
+        <div class="bk-step-num">1</div>
+        <div class="bk-step-label">Services</div>
+      </div>
+      <div class="bk-step-tab" id="ptab2">
+        <div class="bk-step-num">2</div>
+        <div class="bk-step-label">Details</div>
+      </div>
+      <div class="bk-step-tab" id="ptab3">
+        <div class="bk-step-num">3</div>
+        <div class="bk-step-label">Confirm</div>
+      </div>
+      <div class="bk-progress-bar" id="bkProgressBar"></div>
+    </div>
+
+    <div class="bk-body">
+
+      <!-- ── STEP 1: Pick Services ── -->
+      <div class="bk-panel active" id="bkStep1">
+        <div class="bk-title">Choose your <em>Services</em></div>
+        <div class="bk-sub">Select one or more services. You can mix Salon & Spa.</div>
+
+        <div class="bk-cat-tabs" id="bkCatTabs"></div>
+        <div class="bk-service-list" id="bkServiceList"></div>
+
+        <div class="bk-selected-summary" id="bkSummary1">
+          No services selected yet — pick at least one to continue.
+        </div>
+      </div>
+
+      <!-- ── STEP 2: Your Details ── -->
+      <div class="bk-panel" id="bkStep2">
+        <div class="bk-title">Your <em>Details</em></div>
+        <div class="bk-sub">Tell us about yourself and when you'd like to visit.</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Full Name *</label>
+            <input class="form-input" type="text" id="bkName" placeholder="Your full name"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone *</label>
+            <input class="form-input" type="tel" id="bkPhone" placeholder="+91 XXXXX XXXXX"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-input" type="email" id="bkEmail" placeholder="your@email.com"/>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Preferred Date *</label>
+            <input class="form-input" type="date" id="bkDate"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Preferred Time *</label>
+            <select class="form-select" id="bkTime">
+              <option value="">Select a slot</option>
+              <option>10:00 AM</option><option>10:30 AM</option>
+              <option>11:00 AM</option><option>11:30 AM</option>
+              <option>12:00 PM</option><option>12:30 PM</option>
+              <option>01:00 PM</option><option>01:30 PM</option>
+              <option>02:00 PM</option><option>02:30 PM</option>
+              <option>03:00 PM</option><option>03:30 PM</option>
+              <option>04:00 PM</option><option>04:30 PM</option>
+              <option>05:00 PM</option><option>05:30 PM</option>
+              <option>06:00 PM</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Choose Your Stylist / Therapist</label>
+          <div class="stylist-grid">
+            <div class="stylist-card selected" onclick="selectStylist(this,'Any Available')">
+              <div class="stylist-avatar">✦</div>
+              <div class="stylist-name">Any Available</div>
+              <div class="stylist-role">Best match for you</div>
+            </div>
+            <div class="stylist-card" onclick="selectStylist(this,'Divya')">
+              <div class="stylist-avatar">👩</div>
+              <div class="stylist-name">Divya</div>
+              <div class="stylist-role">Senior Stylist</div>
+            </div>
+            <div class="stylist-card" onclick="selectStylist(this,'Arjun')">
+              <div class="stylist-avatar">👨</div>
+              <div class="stylist-name">Arjun</div>
+              <div class="stylist-role">Hair Specialist</div>
+            </div>
+            <div class="stylist-card" onclick="selectStylist(this,'Priya')">
+              <div class="stylist-avatar">👩‍🦱</div>
+              <div class="stylist-name">Priya</div>
+              <div class="stylist-role">Skin & Spa Expert</div>
+            </div>
+            <div class="stylist-card" onclick="selectStylist(this,'Ravi')">
+              <div class="stylist-avatar">👨‍🦲</div>
+              <div class="stylist-name">Ravi</div>
+              <div class="stylist-role">Bridal Artist</div>
+            </div>
+            <div class="stylist-card" onclick="selectStylist(this,'Meena')">
+              <div class="stylist-avatar">👩‍🦳</div>
+              <div class="stylist-name">Meena</div>
+              <div class="stylist-role">Nail Technician</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Special Requests</label>
+          <textarea class="form-textarea" id="bkNotes" placeholder="Allergies, skin sensitivity, preferences..."></textarea>
+        </div>
+      </div>
+
+      <!-- ── STEP 3: Confirm ── -->
+      <div class="bk-panel" id="bkStep3">
+        <div class="bk-title">Review & <em>Confirm</em></div>
+        <div class="bk-sub">Please check everything before confirming your appointment.</div>
+
+        <div class="confirm-section">
+          <div class="confirm-section-title">Selected Services</div>
+          <div id="confirmServices"></div>
+          <div class="confirm-total">
+            <div class="confirm-total-label">Total Estimate</div>
+            <div class="confirm-total-val" id="confirmTotal">₹0</div>
+          </div>
+        </div>
+
+        <div class="confirm-section">
+          <div class="confirm-section-title">Appointment Details</div>
+          <div id="confirmDetails"></div>
+        </div>
+
+        <div style="background:var(--dark4);border:1px solid rgba(201,168,76,0.1);padding:14px;font-size:12px;color:var(--muted);line-height:1.7;margin-top:4px">
+          ✦ We'll send a confirmation via WhatsApp/call within 2 hours. Full payment at the salon.
+        </div>
+      </div>
+
+      <!-- ── SUCCESS ── -->
+      <div class="bk-panel" id="bkSuccess">
+        <div class="bk-success">
+          <div class="bk-success-icon">✦</div>
+          <div class="bk-success-title">You're all <em>Set!</em></div>
+          <p class="bk-success-sub" id="successMsg">Appointment confirmed.</p>
+          <div class="bk-ref" id="successRef">REF #LM-000000</div>
+          <br/><br/>
+          <button class="btn-primary" onclick="closeBkModal()">Close</button>
+        </div>
+      </div>
+
+    </div><!-- /bk-body -->
+
+    <!-- Footer nav -->
+    <div class="bk-footer" id="bkFooter">
+      <button class="btn-ghost" id="bkBackBtn" onclick="bkBack()" style="visibility:hidden">← Back</button>
+      <button class="btn-primary" id="bkNextBtn" onclick="bkNext()">Next: Your Details →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════
+   PAGE NAVIGATION
+═══════════════════════════════════ */
+function showPage(name, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  if (el) el.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+/* ─── Salon Tabs ─── */
+function showTab(name, el) {
+  document.querySelectorAll('#page-salon .tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#page-salon .tab-panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+/* ─── Sub Tabs ─── */
+function showSubTab(name, el, parent) {
+  const panel = document.getElementById('tab-' + parent);
+  panel.querySelectorAll('.sub-tab').forEach(b => b.classList.remove('active'));
+  panel.querySelectorAll('.sub-panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('sub-' + name).classList.add('active');
+}
+
+/* ═══════════════════════════════════
+   SERVICE CATALOGUE
+═══════════════════════════════════ */
+const ALL_SERVICES = [
+  // Men Skin
+  { id:'ms1', name:'Classic Facial', cat:'Men · Skin', price:799, img:'https://images.unsplash.com/photo-1619451334792-150fd785ee74?w=60' },
+  { id:'ms2', name:'Steam Facial', cat:'Men · Skin', price:999, img:'https://images.unsplash.com/photo-1591343395082-e120087004b4?w=60' },
+  { id:'ms3', name:'Chemical Peel', cat:'Men · Skin', price:1499, img:'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=60' },
+  { id:'ms4', name:'Deep Cleaning', cat:'Men · Skin', price:1199, img:'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=60' },
+  { id:'ms5', name:'Hydra Facial (Men)', cat:'Men · Skin', price:2499, img:'https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=60' },
+  // Men Hair
+  { id:'mh1', name:'Precision Haircut', cat:'Men · Hair', price:499, img:'https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=60' },
+  { id:'mh2', name:'Hair Colour (Men)', cat:'Men · Hair', price:1299, img:'https://images.unsplash.com/photo-1587909209111-5097ee578ec3?w=60' },
+  { id:'mh3', name:'Texture Treatment', cat:'Men · Hair', price:2999, img:'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=60' },
+  { id:'mh4', name:'Hair Spa (Men)', cat:'Men · Hair', price:1199, img:'https://images.unsplash.com/photo-1634449571010-02389ed0f9b0?w=60' },
+  { id:'mh5', name:'Party Makeup & Grooming', cat:'Men · Hair', price:1799, img:'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=60' },
+  // Women Skin
+  { id:'ws1', name:'Hydra Facial (Women)', cat:'Women · Skin', price:2799, img:'https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=60' },
+  { id:'ws2', name:'Brightening Facial', cat:'Women · Skin', price:1599, img:'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=60' },
+  { id:'ws3', name:'Chemical Peel (Women)', cat:'Women · Skin', price:1799, img:'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=60' },
+  // Women Hair
+  { id:'wh1', name:'Blow Dry & Style', cat:'Women · Hair', price:699, img:'https://images.unsplash.com/photo-1562322140-8baeececf3df?w=60' },
+  { id:'wh2', name:'Global Colour', cat:'Women · Hair', price:2499, img:'https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=60' },
+  { id:'wh3', name:'Keratin Smoothing', cat:'Women · Hair', price:3999, img:'https://images.unsplash.com/photo-1634449571010-02389ed0f9b0?w=60' },
+  // Women Makeup
+  { id:'wm1', name:'Party Makeup', cat:'Women · Makeup', price:2499, img:'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=60' },
+  { id:'wm2', name:'Airbrush Makeup', cat:'Women · Makeup', price:3499, img:'https://images.unsplash.com/photo-1487412947147-5cebf100d293?w=60' },
+  // Women Nails
+  { id:'wn1', name:'Gel Manicure', cat:'Women · Nails', price:899, img:'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=60' },
+  { id:'wn2', name:'Nail Art', cat:'Women · Nails', price:399, img:'https://images.unsplash.com/photo-1610992015732-2449b76344bc?w=60' },
+  { id:'wn3', name:'Luxury Pedicure', cat:'Women · Nails', price:1099, img:'https://images.unsplash.com/photo-1519014816548-bf5fe059798b?w=60' },
+  // Women Saree
+  { id:'ws4', name:'Classic Saree Draping', cat:'Women · Saree', price:599, img:'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=60' },
+  { id:'ws5', name:'Bridal Saree Draping', cat:'Women · Saree', price:1299, img:'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=60' },
+  // Women Bridal
+  { id:'wb1', name:'Bridal Makeup', cat:'Women · Bridal', price:8999, img:'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=60' },
+  { id:'wb2', name:'Complete Bridal Package', cat:'Women · Bridal', price:18999, img:'https://images.unsplash.com/photo-1529636798458-92182e662485?w=60' },
+  { id:'wb3', name:'Pre-Bridal Ritual', cat:'Women · Bridal', price:6499, img:'https://images.unsplash.com/photo-1487412947147-5cebf100d293?w=60' },
+  // Kids
+  { id:'k1', name:'Fun Snip Haircut', cat:'Kids', price:299, img:'https://images.unsplash.com/photo-1607453998774-d533f65dac99?w=60' },
+  { id:'k2', name:'Princess Braids & Twists', cat:'Kids', price:499, img:'https://images.unsplash.com/photo-1588776814546-daab30f310ce?w=60' },
+  { id:'k3', name:'Birthday Star Package', cat:'Kids', price:1299, img:'https://images.unsplash.com/photo-1535572290543-960a8046f5af?w=60' },
+  { id:'k4', name:'School Ready Style', cat:'Kids', price:399, img:'https://images.unsplash.com/photo-1519340241574-2cec6aef0c01?w=60' },
+  { id:'k5', name:'Mini Spa Day', cat:'Kids', price:799, img:'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=60' },
+  { id:'k6', name:'Junior Groom Package', cat:'Kids', price:599, img:'https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?w=60' },
+  // Spa
+  { id:'sp1', name:'Foot Relaxation Ritual', cat:'Spa', price:1299, img:'https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=60' },
+  { id:'sp2', name:'Balance Massage', cat:'Spa', price:1999, img:'https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=60' },
+  { id:'sp3', name:'Deep Tension Massage', cat:'Spa', price:2499, img:'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=60' },
+  { id:'sp4', name:'Hot Stone Therapy', cat:'Spa', price:3499, img:'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=60' },
+  { id:'sp5', name:'Aromatherapy Body Wrap', cat:'Spa', price:2799, img:'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=60' },
+  { id:'sp6', name:'Shirodhara', cat:'Spa', price:2999, img:'https://images.unsplash.com/photo-1591343395082-e120087004b4?w=60' },
+  { id:'sp7', name:"Couple's Escape", cat:'Spa', price:4999, img:'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=60' },
+  { id:'sp8', name:'Lumière Signature Journey', cat:'Spa', price:6499, img:'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=60' },
+];
+
+/* ═══════════════════════════════════
+   BOOKING STATE
+═══════════════════════════════════ */
+let bkStep = 1;
+let bkSelected = new Set();
+let bkActiveCat = 'All';
+let bkStylist = 'Any Available';
+
+const CATS = ['All','Men · Skin','Men · Hair','Women · Skin','Women · Hair','Women · Makeup','Women · Nails','Women · Saree','Women · Bridal','Kids','Spa'];
+
+function openBookingFlow() {
+  bkStep = 1;
+  bkSelected = new Set();
+  bkActiveCat = 'All';
+  bkStylist = 'Any Available';
+  renderCatTabs();
+  renderServiceList();
+  updateSummary1();
+  showBkStep(1);
+  // reset form
+  ['bkName','bkPhone','bkEmail','bkNotes'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+  ['bkDate','bkTime'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+  document.querySelectorAll('.stylist-card').forEach((c,i) => { c.classList.toggle('selected', i===0); });
+  document.getElementById('bkOverlay').classList.add('open');
+}
+
+function closeBkModal() {
+  document.getElementById('bkOverlay').classList.remove('open');
+}
+
+/* ─── Category tabs ─── */
+function renderCatTabs() {
+  const el = document.getElementById('bkCatTabs');
+  el.innerHTML = CATS.map(c => `
+    <button class="bk-cat-btn ${c===bkActiveCat?'active':''}" onclick="setBkCat('${c}',this)">${c}</button>
+  `).join('');
+}
+
+function setBkCat(cat, btn) {
+  bkActiveCat = cat;
+  document.querySelectorAll('.bk-cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderServiceList();
+}
+
+/* ─── Service list ─── */
+function renderServiceList() {
+  const list = document.getElementById('bkServiceList');
+  const filtered = bkActiveCat === 'All' ? ALL_SERVICES : ALL_SERVICES.filter(s => s.cat === bkActiveCat);
+  list.innerHTML = filtered.map(s => `
+    <div class="bk-service-row ${bkSelected.has(s.id)?'selected':''}" onclick="toggleService('${s.id}')">
+      <div class="bk-service-check">${bkSelected.has(s.id)?'✓':''}</div>
+      <img class="bk-service-row-img" src="${s.img}" alt="${s.name}" onerror="this.style.display='none'"/>
+      <div class="bk-service-row-info">
+        <div class="bk-service-row-name">${s.name}</div>
+        <div class="bk-service-row-cat">${s.cat}</div>
+      </div>
+      <div class="bk-service-row-price">₹${s.price.toLocaleString('en-IN')}</div>
+    </div>
+  `).join('');
+}
+
+function toggleService(id) {
+  if (bkSelected.has(id)) bkSelected.delete(id);
+  else bkSelected.add(id);
+  renderServiceList();
+  updateSummary1();
+  updateCartBadge();
+}
+
+function updateSummary1() {
+  const el = document.getElementById('bkSummary1');
+  const count = bkSelected.size;
+  if (count === 0) {
+    el.innerHTML = 'No services selected yet — pick at least one to continue.';
+    return;
+  }
+  const total = getTotal();
+  el.innerHTML = `<strong style="color:var(--gold)">${count} service${count>1?'s':''} selected</strong> &nbsp;·&nbsp; Estimated total: <strong style="color:var(--gold)">₹${total.toLocaleString('en-IN')}</strong>`;
+}
+
+function getTotal() {
+  return [...bkSelected].reduce((sum, id) => {
+    const s = ALL_SERVICES.find(x => x.id === id);
+    return sum + (s ? s.price : 0);
+  }, 0);
+}
+
+function updateCartBadge() {
+  const badge = document.getElementById('cartCount');
+  const count = bkSelected.size;
+  badge.style.display = count > 0 ? 'flex' : 'none';
+  badge.textContent = count;
+}
+
+/* ─── Stylist selection ─── */
+function selectStylist(card, name) {
+  document.querySelectorAll('.stylist-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  bkStylist = name;
+}
+
+/* ─── Step navigation ─── */
+function showBkStep(n) {
+  bkStep = n;
+  document.querySelectorAll('.bk-panel').forEach(p => p.classList.remove('active'));
+
+  const isSuccess = n === 4;
+  document.getElementById('bkFooter').style.display = isSuccess ? 'none' : 'flex';
+  document.getElementById('bkProgress').style.display = isSuccess ? 'none' : 'flex';
+
+  if (isSuccess) {
+    document.getElementById('bkSuccess').classList.add('active');
+    return;
+  }
+
+  document.getElementById('bkStep' + n).classList.add('active');
+
+  // update progress tabs
+  for (let i = 1; i <= 3; i++) {
+    const tab = document.getElementById('ptab' + i);
+    tab.classList.remove('active','done');
+    if (i < n) tab.classList.add('done');
+    if (i === n) tab.classList.add('active');
+  }
+
+  // progress bar width
+  const pct = ((n-1)/2)*100;
+  document.getElementById('bkProgressBar').style.width = pct + '%';
+
+  // back button
+  const back = document.getElementById('bkBackBtn');
+  back.style.visibility = n > 1 ? 'visible' : 'hidden';
+
+  // next button label
+  const next = document.getElementById('bkNextBtn');
+  if (n === 1) next.textContent = 'Next: Your Details →';
+  if (n === 2) next.textContent = 'Review Booking →';
+  if (n === 3) next.textContent = '✦ Confirm Appointment';
+}
+
+function bkNext() {
+  if (bkStep === 1) {
+    if (bkSelected.size === 0) {
+      document.getElementById('bkSummary1').style.color = '#c0392b';
+      document.getElementById('bkSummary1').textContent = 'Please select at least one service to continue.';
+      setTimeout(() => { document.getElementById('bkSummary1').style.color = ''; updateSummary1(); }, 2000);
+      return;
+    }
+    showBkStep(2);
+  } else if (bkStep === 2) {
+    const name = document.getElementById('bkName').value.trim();
+    const phone = document.getElementById('bkPhone').value.trim();
+    const date = document.getElementById('bkDate').value;
+    const time = document.getElementById('bkTime').value;
+    if (!name || !phone || !date || !time) {
+      alert('Please fill in Name, Phone, Date, and Time.');
+      return;
+    }
+    buildConfirmScreen();
+    showBkStep(3);
+  } else if (bkStep === 3) {
+    submitBkBooking();
+  }
+}
+
+function bkBack() {
+  if (bkStep > 1) showBkStep(bkStep - 1);
+}
+
+/* ─── Confirm screen ─── */
+function buildConfirmScreen() {
+  // services
+  const selected = ALL_SERVICES.filter(s => bkSelected.has(s.id));
+  document.getElementById('confirmServices').innerHTML = selected.map(s => `
+    <div class="confirm-row">
+      <span class="confirm-row-label">${s.name}</span>
+      <span class="confirm-row-val" style="color:var(--gold)">₹${s.price.toLocaleString('en-IN')}</span>
+    </div>
+  `).join('');
+  document.getElementById('confirmTotal').textContent = '₹' + getTotal().toLocaleString('en-IN');
+
+  // details
+  const name = document.getElementById('bkName').value;
+  const phone = document.getElementById('bkPhone').value;
+  const email = document.getElementById('bkEmail').value;
+  const date = document.getElementById('bkDate').value;
+  const time = document.getElementById('bkTime').value;
+  const notes = document.getElementById('bkNotes').value;
+
+  document.getElementById('confirmDetails').innerHTML = `
+    <div class="confirm-row"><span class="confirm-row-label">Name</span><span class="confirm-row-val">${name}</span></div>
+    <div class="confirm-row"><span class="confirm-row-label">Phone</span><span class="confirm-row-val">${phone}</span></div>
+    ${email ? `<div class="confirm-row"><span class="confirm-row-label">Email</span><span class="confirm-row-val">${email}</span></div>` : ''}
+    <div class="confirm-row"><span class="confirm-row-label">Date</span><span class="confirm-row-val">${date}</span></div>
+    <div class="confirm-row"><span class="confirm-row-label">Time</span><span class="confirm-row-val">${time}</span></div>
+    <div class="confirm-row"><span class="confirm-row-label">Stylist</span><span class="confirm-row-val">${bkStylist}</span></div>
+    ${notes ? `<div class="confirm-row"><span class="confirm-row-label">Notes</span><span class="confirm-row-val">${notes}</span></div>` : ''}
+  `;
+}
+
+/* ─── Submit ─── */
+function submitBkBooking() {
+  const name = document.getElementById('bkName').value;
+  const date = document.getElementById('bkDate').value;
+  const time = document.getElementById('bkTime').value;
+  const count = bkSelected.size;
+  const ref = 'LM-' + Math.floor(100000 + Math.random() * 900000);
+
+  document.getElementById('successMsg').innerHTML =
+    `Thank you, <strong style="color:var(--white)">${name}</strong>! Your appointment on <strong style="color:var(--gold)">${date} at ${time}</strong> for ${count} service${count>1?'s':''} has been received.<br/>We'll confirm via WhatsApp within 2 hours.`;
+  document.getElementById('successRef').textContent = 'REF # ' + ref;
+
+  bkSelected = new Set();
+  updateCartBadge();
+  showBkStep(4);
+}
+</script>
+
+</body>
+</html>
